@@ -1,0 +1,37 @@
+{
+  "name": "rhysoverlay",
+  "version": "0.1.0",
+  "description": "RhysOverlay - customizable in-game performance overlay with a local Ollama chat panel and bottleneck advisor.",
+  "main": "main.js",
+  "author": "Aksh Dubey",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^31.3.0",
+    "electron-builder": "^24.13.3"
+  },
+  "dependencies": {
+    "systeminformation": "^5.23.5",
+    "electron-store": "^8.2.0"
+  },
+  "build": {
+    "appId": "com.aksh.rhysoverlay",
+    "productName": "RhysOverlay",
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "config/**/*",
+      "assets/**/*"
+    ],
+    "win": {
+      "target": "nsis"
+    }
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "onboarded": false,
+  "overlay": {
+    "enabled": true,
+    "clickThrough": true,
+    "refreshRateMs": 1500,
+    "activeTheme": "minimal-dark",
+    "position": { "x": null, "y": null },
+    "widgets": [
+      { "id": "fps", "label": "FPS", "enabled": true, "order": 0 },
+      { "id": "frametime", "label": "Frame Time", "enabled": false, "order": 1 },
+      { "id": "cpu", "label": "CPU", "enabled": true, "order": 2 },
+      { "id": "gpu", "label": "GPU", "enabled": true, "order": 3 },
+      { "id": "ram", "label": "RAM", "enabled": true, "order": 4 },
+      { "id": "vram", "label": "VRAM", "enabled": false, "order": 5 },
+      { "id": "temp_cpu", "label": "CPU Temp", "enabled": false, "order": 6 },
+      { "id": "temp_gpu", "label": "GPU Temp", "enabled": false, "order": 7 },
+      { "id": "net", "label": "Network", "enabled": false, "order": 8 },
+      { "id": "bottleneck", "label": "Bottleneck", "enabled": true, "order": 9 }
+    ],
+    "themes": [
+      {
+        "id": "minimal-dark",
+        "name": "Minimal Dark",
+        "background": "rgba(13,13,13,0.82)",
+        "accent": "#7c5cff",
+        "text": "#ffffff",
+        "borderStyle": "solid",
+        "border": "1px solid rgba(255,255,255,0.08)",
+        "cornerRadius": 10,
+        "animatedBorder": false
+      },
+      {
+        "id": "borderless",
+        "name": "Borderless",
+        "background": "transparent",
+        "accent": "#7c5cff",
+        "text": "#ffffff",
+        "borderStyle": "none",
+        "border": "none",
+        "cornerRadius": 0,
+        "animatedBorder": false,
+        "textShadow": "0 1px 3px rgba(0,0,0,0.9)"
+      },
+      {
+        "id": "black",
+        "name": "Black",
+        "background": "#000000",
+        "accent": "#7c5cff",
+        "text": "#ffffff",
+        "borderStyle": "solid",
+        "border": "1px solid #222222",
+        "cornerRadius": 6,
+        "animatedBorder": false
+      },
+      {
+        "id": "white",
+        "name": "White",
+        "background": "rgba(255,255,255,0.92)",
+        "accent": "#5b3df0",
+        "text": "#111111",
+        "borderStyle": "solid",
+        "border": "1px solid rgba(0,0,0,0.08)",
+        "cornerRadius": 10,
+        "animatedBorder": false
+      },
+      {
+        "id": "purple-glow",
+        "name": "Purple Glow",
+        "background": "rgba(18,14,32,0.85)",
+        "accent": "#a78bfa",
+        "text": "#ffffff",
+        "borderStyle": "solid",
+        "border": "1px solid rgba(167,139,250,0.35)",
+        "cornerRadius": 12,
+        "animatedBorder": false,
+        "glow": "0 0 22px rgba(124,92,255,0.35)"
+      },
+      {
+        "id": "animated-border",
+        "name": "Animated Border",
+        "background": "rgba(13,13,13,0.82)",
+        "accent": "#7c5cff",
+        "text": "#ffffff",
+        "borderStyle": "animated",
+        "border": "2px solid transparent",
+        "cornerRadius": 12,
+        "animatedBorder": true
+      }
+    ],
+    "hotkeys": {
+      "toggleOverlay": "Alt+O",
+      "toggleClickThrough": "Alt+L",
+      "toggleApp": "Alt+C",
+      "adjustPosition": "Alt+P"
+    }
+  },
+  "fps": {
+    "source": "presentmon",
+    "presentMonPath": "",
+    "simulateIfUnavailable": true
+  },
+  "chat": {
+    "provider": "ollama",
+    "ollama": { "baseUrl": "http://localhost:11434", "defaultModel": "" },
+    "openai": { "model": "gpt-4o-mini" },
+    "anthropic": { "model": "claude-sonnet-5" }
+  },
+  "bottleneck": {
+    "sampleWindowSeconds": 10,
+    "gpuBoundThreshold": 90,
+    "cpuBoundThreshold": 85,
+    "ramPressureThreshold": 85,
+    "lowUtilizationThreshold": 40
+  }
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>RhysOverlay Settings</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #111114; color: #eee; margin: 0; padding: 16px; }
+    h2 { margin-top: 0; font-size: 16px; opacity: 0.9; }
+    .section { margin-bottom: 20px; }
+    .widget-toggle { display: flex; align-items: center; gap: 8px; padding: 4px 0; }
+    label { flex: 1; }
+    input[type="color"] { width: 40px; height: 24px; border: none; background: none; }
+    input[type="range"] { width: 140px; }
+    .row { display: flex; align-items: center; gap: 10px; padding: 4px 0; }
+    button#save { background: #7c5cff; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+    #status { margin-left: 10px; font-size: 0.85em; opacity: 0.7; }
+  </style>
+</head>
+<body>
+  <h2>Widgets</h2>
+  <div id="widget-list" class="section"></div>
+
+  <h2>Theme</h2>
+  <div class="section">
+    <div class="row"><label>Accent color</label><input type="color" id="accent-color" /></div>
+    <div class="row"><label>Background opacity</label><input type="range" id="opacity" min="0.3" max="1" step="0.05" /></div>
+    <div class="row"><label>Font size</label><input type="range" id="font-size" min="10" max="22" step="1" /></div>
+  </div>
+
+  <h2>Refresh rate</h2>
+  <div class="section">
+    <div class="row"><label>Update interval (ms)</label><input type="range" id="refresh-rate" min="250" max="3000" step="250" /></div>
+  </div>
+
+  <div class="row">
+    <button id="save">Save Settings</button>
+    <span id="status"></span>
+  </div>
+
+  <script src="settings.js"></script>
+</body>
+</html>

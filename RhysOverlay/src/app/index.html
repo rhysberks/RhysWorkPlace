@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>RhysOverlay</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+
+  <!-- ============ SPLASH ============ -->
+  <section id="view-splash" class="splash">
+    <div class="blob blob-a"></div>
+    <div class="blob blob-b"></div>
+    <div class="blob blob-c"></div>
+
+    <div class="splash-content">
+      <svg class="logo-mark" width="84" height="84" viewBox="0 0 84 84" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="84" y2="84" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#7c5cff"/>
+            <stop offset="1" stop-color="#5cc8ff"/>
+          </linearGradient>
+        </defs>
+        <circle cx="42" cy="42" r="40" stroke="url(#g1)" stroke-width="3" opacity="0.5"/>
+        <circle cx="42" cy="42" r="30" fill="url(#g1)" opacity="0.15"/>
+        <path d="M28 58V26H45C51.6 26 57 31.4 57 38C57 43 54 47.2 49.6 49.1L58 58H49L41.6 49.8H36V58H28ZM36 42.8H44C46.8 42.8 49 40.8 49 38C49 35.2 46.8 33.2 44 33.2H36V42.8Z" fill="url(#g1)"/>
+      </svg>
+      <h1>RhysOverlay</h1>
+      <p class="tagline">Live PC stats, a local AI copilot, and a bottleneck advisor - all in one overlay.</p>
+      <button id="enter-app-btn" class="pill-btn">Enter App</button>
+    </div>
+  </section>
+
+  <!-- ============ APP SHELL ============ -->
+  <section id="view-app" class="app-shell hidden">
+    <div class="app-bg">
+      <div class="blob blob-a"></div>
+      <div class="blob blob-b"></div>
+    </div>
+    <nav class="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-dot"></span>
+        RhysOverlay
+      </div>
+      <button class="nav-item active" data-page="chat">💬 Chat</button>
+      <button class="nav-item" data-page="overlay">🎛 Overlay</button>
+      <button class="nav-item" data-page="settings">⚙ Settings</button>
+      <div class="sidebar-footer" id="specs-summary">Detecting hardware...</div>
+    </nav>
+
+    <main class="content">
+
+      <!-- ---- CHAT PAGE ---- -->
+      <section id="page-chat" class="page active">
+        <div class="chat-topbar">
+          <select id="provider-select">
+            <option value="ollama">Ollama (local)</option>
+            <option value="openai">OpenAI (API key)</option>
+            <option value="anthropic">Anthropic (API key)</option>
+          </select>
+          <select id="model-select"></select>
+          <input id="model-custom" type="text" placeholder="model name (e.g. gpt-4o-mini)" class="hidden" />
+          <button id="get-more-models-btn" class="ghost-btn">Get more models</button>
+        </div>
+
+        <div id="recommend-banner" class="recommend-banner hidden"></div>
+
+        <div id="messages" class="messages"></div>
+
+        <form id="chat-form" class="chat-form">
+          <input id="chat-input" type="text" placeholder="Ask about your PC, your game, anything..." autocomplete="off" />
+          <button type="submit" class="pill-btn small">Send</button>
+        </form>
+      </section>
+
+      <!-- ---- MODEL PICKER MODAL ---- -->
+      <div id="model-modal" class="modal hidden">
+        <div class="modal-box">
+          <div class="modal-header">
+            <span>Install a model</span>
+            <button id="close-model-modal" class="icon-btn">✕</button>
+          </div>
+          <div id="model-modal-body" class="modal-body"></div>
+        </div>
+      </div>
+
+      <!-- ---- OVERLAY PAGE ---- -->
+      <section id="page-overlay" class="page">
+        <h2>Widgets</h2>
+        <div id="widget-toggle-list" class="widget-toggle-list"></div>
+
+        <h2>Position</h2>
+        <div class="row">
+          <button id="adjust-position-btn" class="pill-btn small">Adjust position</button>
+          <span id="position-hint" class="hint">Click, then drag the overlay's title bar on screen. Click again to lock it.</span>
+        </div>
+
+        <h2>Refresh rate</h2>
+        <div class="row">
+          <input type="range" id="refresh-rate" min="500" max="3000" step="250" />
+          <span id="refresh-rate-label"></span>
+        </div>
+
+        <h2>Theme</h2>
+        <div id="theme-gallery" class="theme-gallery"></div>
+      </section>
+
+      <!-- ---- SETTINGS PAGE ---- -->
+      <section id="page-settings" class="page">
+        <h2>API Keys</h2>
+        <p class="hint">Keys are encrypted with your OS keychain when available and never leave this device.</p>
+        <div class="row">
+          <label class="key-label">OpenAI</label>
+          <input type="password" id="openai-key" placeholder="sk-..." />
+          <button class="pill-btn small" id="save-openai-key">Save</button>
+          <span class="key-status" id="openai-key-status"></span>
+        </div>
+        <div class="row">
+          <label class="key-label">Anthropic</label>
+          <input type="password" id="anthropic-key" placeholder="sk-ant-..." />
+          <button class="pill-btn small" id="save-anthropic-key">Save</button>
+          <span class="key-status" id="anthropic-key-status"></span>
+        </div>
+
+        <h2>Hotkeys</h2>
+        <ul class="hotkey-list" id="hotkey-list"></ul>
+
+        <h2>Your hardware</h2>
+        <ul class="hotkey-list" id="specs-list"></ul>
+      </section>
+
+    </main>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+:root {
+  --bg: rgba(13, 13, 13, 0.82);
+  --accent: #7c5cff;
+  --text: #ffffff;
+  --radius: 10px;
+  --border: 1px solid rgba(255, 255, 255, 0.08);
+  --glow: none;
+  --text-shadow: none;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: Consolas, 'Segoe UI', monospace;
+  font-size: 14px;
+  color: var(--text);
+  user-select: none;
+  /* Whole page is NOT a drag region - only #drag-handle is - so clicks on
+     future interactive widgets aren't accidentally swallowed. */
+}
+
+.panel {
+  position: relative;
+  background: var(--bg);
+  border: var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--glow);
+  padding: 10px 14px;
+  width: fit-content;
+  min-width: 220px;
+  text-shadow: var(--text-shadow);
+}
+
+/* Animated-border theme: a rotating conic-gradient ring behind the panel,
+   revealed through a transparent border. Pure compositor-side rotation
+   (transform only) - no blur, no per-frame layout work, cheap to run
+   continuously. */
+body.theme-animated-border .panel {
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+body.theme-animated-border .panel::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(from 0deg, var(--accent), #ff5cf1, #5cc8ff, var(--accent));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: -1;
+  animation: rotate-ring 4s linear infinite;
+}
+@keyframes rotate-ring {
+  to { transform: rotate(360deg); }
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  opacity: 0.9;
+  border-radius: 6px;
+  padding: 2px 4px;
+  margin: -2px -4px 6px -4px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent);
+  flex-shrink: 0;
+}
+
+.edit-hint {
+  display: none;
+  margin-left: auto;
+  font-size: 0.7em;
+  font-weight: 400;
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+/* Edit mode: header becomes draggable and visibly highlighted so it's
+   obvious you can grab it. Only active while adjusting position from the
+   Overlay page - normal (click-through) mode never applies this. */
+body.edit-mode .panel {
+  outline: 1px dashed var(--accent);
+  outline-offset: 3px;
+}
+body.edit-mode .panel-header {
+  -webkit-app-region: drag;
+  cursor: move;
+  background: rgba(124, 92, 255, 0.15);
+}
+body.edit-mode .edit-hint {
+  display: inline;
+}
+
+.widgets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.widget-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 2px 0;
+}
+
+.widget-row .label {
+  opacity: 0.75;
+}
+
+.widget-row .value {
+  font-weight: 600;
+}
+
+.value.warn { color: #ffb454; }
+.value.crit { color: #ff5c5c; }
+
+.bottleneck-box {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.9em;
+  line-height: 1.3;
+  opacity: 0.9;
+}
