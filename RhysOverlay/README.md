@@ -1,121 +1,143 @@
-# RhysOverlay
+# Rhys Overlay
 
-A customizable in-game performance overlay (FPS, CPU/GPU/RAM/VRAM/temps) with
-a bottleneck advisor, plus a unified app with a local Ollama chat (or
-OpenAI/Anthropic via API key), model management, and a theme-able overlay
+An in-game overlay FPS, CPU/GPU/RAM/VRAM/temps (per process) customizable with
+A bottleneck advisor, and a common app with a local Ollama chat (or
+
+OpenAI/Anthropic through API key), Manage Models, & Theme-able Overlay
+
 control panel.
 
-## ⚠ If you ran an earlier version
+If you ran an earlier version
 
 Two real bugs, both fixed at the root this time:
 
-**1. The CPU/frame-drop bug.** The overlay window was using the most
-aggressive `alwaysOnTop` level (`'screen-saver'`) combined with
-`backdrop-filter: blur()` on a transparent, click-through window updating
-every second. On many GPU/driver combinations that exact combination makes
-Chromium's compositor fight with the OS window manager — 100% CPU and other
-windows freezing until refocus is the classic symptom. Fixed via `'floating'`
-level and removing blur everywhere in the overlay (solid/`rgba()`
-backgrounds + `box-shadow` glow instead).
+The CPU/frame-drop bug. In this case, the overlay window was used at the most
+aggressive alwaysOnTop level ('screen-saver') combined with
+Blur() backdrop-filter on clear, clickthrough window update
+Clicks every second. On many GPU/driver combinations that specific combo makes.
+Chromium's compositing battle with the OS window manager - 100% CPU and more.
+Windows freezing until refocus the classic symptom fixed by `floating''
+Interval, and clearing blur throughout overlay (solid/rgba().
+Backgrounds + box-shadow glow instead).
 
-**2. "Only the title shows, no CPU/RAM, dragging does nothing."** This
-version added new config keys (`overlay.themes`, `overlay.activeTheme`,
-the `chat` section, etc). Electron's config store only fills in defaults
-for a file that doesn't exist yet — it does **not** retroactively add new
-keys to a config you already have saved on disk from an earlier run. So the
-overlay script hit `undefined` reading `overlay.themes`, threw, and every
-line of JS after that (building the widget rows, wiring up drag-to-reposition)
-never ran. **You don't need to do anything** — this version self-heals your
-existing config on launch (fills in only what's missing, keeps every
-customization you already made). If you ever want a fully clean slate
-anyway, the config file lives at your OS's standard app-data path under
-`rhysoverlay-config.json`.
+2. "Only the title appears, not the CPU/RAM, so dragging is pointless." This
+version added new config keys (overlay.themes, overlay.activeTheme,
+Other knowledge (e.g. The chat section, etc).electron's config store is just setting defaults
+For a file that doesn't exist yet - it will not add to it retroactively.
+Keys to a config you already have saved on disk from an earlier run. So the
+Overlay script hit undefined reading overlay.themes, throw, and, and, and, and, and.
+Line of JS after that (building the widget rows, wiring up drag-to-reposition)
+Failed to run. You don't have to do anything - this one self heals your.
+Present in your version of config at launch (selects only those missed out of and retains everything)
+Customization you already made). If you ever want a fully clean slate
+Anyway, the config file lives at your OS's standard app-data path here:
+rhysoverlay-config.json.
 
-## What's new in this version
+What's new in this version
 
-- **Config self-heal** — see above; fixes themes/widgets/dragging silently
-  breaking on upgrade.
-- **Live-applying settings** — changing a theme, toggling a widget, or
-  dragging the refresh-rate slider now updates the overlay immediately, no
-  restart needed (previously the overlay only read config once at launch).
-- **Smooth page transitions** — Chat/Overlay/Settings crossfade instead of
-  snapping, and the splash → app transition fades instead of cutting.
-- **Smooth buttons** — hover/press states on every button and theme card
-  now animate (lift on hover, settle on click) instead of switching instantly.
-- **Persistent animated background** — the drifting purple/blue gradient
-  from the splash now continues (muted) behind the sidebar/content once
-  you're in the app, instead of the app going flat solid-black.
-- **Overlay page** — toggle each widget on/off, drag-to-reposition (click
-  "Adjust position", drag the overlay's title bar anywhere on screen, click
-  "Lock position" when done), refresh rate slider, and a theme gallery:
-  Minimal Dark, Borderless, Black, White, Purple Glow, and Animated Border
-  (a rotating gradient ring — cheap, transform-only, no blur).
+- Config self-heal - see above - fixes themes/widgets/dragging silently
+ breaking on upgrade.
+- Live-applying effects - altering a theme, switching a widget, or
+Dragging the refresh-rate slider updates the overlay now, no
+Restart needed (formerly overlay only read config once at start).
+- Page transitions - Chat/Overlay/Settings cross fade instead of Page transitions - Chat/Overlay/Settings crossfade instead of
+Snap, while the transition to the splash app is a fade out instead of a cut out.
+- Animated buttons - hover/press states on every button and theme card
+Animate it now (lift on hover, settle on click) rather than switching it instantly.
+- Persistent animated background - the drifting purple/blue gradient
+Er, again, from the splash now continues (muted) behind the sidebar/for example once
+You're in the app, rather than the app going completely solid black.
+- Overlay page - toggle each widget on/off, drag-to-move (click
+Change position: Drag the title bar of the overlay to any point on the screen. Click on.
+"Lock position" when completed), slider for refresh rate and a theme gallery:
 
-## Project layout
+Minimal Dark, Borderless, Black, White, Purple Glow, and Animated Border
 
-```
-RhysOverlay/
-  main.js                    Electron main: app window, overlay window, tray, hotkeys, all IPC
-  preload.js                 Safe bridge exposed to renderers as window.rhys
-  config/default-config.json Widgets, themes, hotkeys, provider settings
-  src/
-    lib/
-      stats.js               Polls systeminformation each tick
-      fps.js                 PresentMon wrapper + simulated fallback
-      bottleneck.js          Rolling-average heuristics -> verdict + suggestion
-      ollama.js              List installed models, pull new ones (CLI, streamed progress)
-      chatProviders.js       Unified streaming chat: Ollama / OpenAI / Anthropic
-      secureStore.js         API key storage via Electron safeStorage
-      specs.js               One-time static hardware detection (CPU/RAM/GPU/VRAM)
-      recommend.js           Maps detected specs -> suggested local models
-    overlay/                 The in-game HUD (transparent, click-through, themeable)
-    app/                     The main window: splash + Chat/Overlay/Settings pages
-```
+(a rotating gradient ring - cheap, transform-only, no blur).
 
-## Getting started
+Project layout
 
-```bash
+`
+
+Rhys Overlay/
+
+Main.js Electron main: app window, overlay window, tray, hotkeys, all IPC
+Preload.js Secure bridge available to renderers as window.rhys
+ config/default-config.json Widgets, themes, hotkeys, provider settings
+
+src/
+
+lib/
+
+Stats.js polls systeminformation on every tick
+ fps.js Present Mon wrapper + simulated fallback
+ bottleneck.js Rolling-average heuristics -> verdict + suggestion
+Ollama.js Listaa asennetut mallit, vedä uusia (CLI, striimattu edistyminen)
+
+Chat Providers.js All-in-one streaming chat: Ollama / OpenAI / Anthropic
+
+secureStore.js API key storage via Electron safeStorage
+ specs.js One-time static hardware detection (CPU/RAM/GPU/VRAM)
+Recommend.js Maps of detected specs -> recommended local models
+ overlay/ The in-game HUD (transparent, click-through, themeable)
+App/ The primary window: splash + Chat/Overlay/Settings pages
+
+`
+
+Getting started
+
+`bash
+
 npm install
+
 npm start
-```
 
-Default hotkeys (`config/default-config.json` → `overlay.hotkeys`):
-- `Alt+O` — show/hide overlay
-- `Alt+L` — toggle click-through
-- `Alt+C` — bring the main app window to front
-- `Alt+P` — toggle "adjust position" mode on the overlay
+`
 
-## Using local chat
+Default hotkeys (config/default-config.json overlay.hotkeys):
 
-1. Install [Ollama](https://ollama.com) and run `ollama serve` (or run the
-   Ollama desktop app).
-2. Open the app → Chat page → "Get more models" shows recommendations based
-   on your detected RAM/VRAM, or type any model name to pull it directly.
-3. Pick the model from the dropdown and chat — responses stream in.
+- Alt+O – display/hide overlay
+- Alt+L - enable or disable clickthrough
+- Alt+C - Bring main app window to front
+- Alt+P - switch overlay to „adjust position" mode
 
-To use OpenAI or Anthropic instead: Settings page → paste your API key →
-switch the provider dropdown on the Chat page.
+Local chat use
 
-## Known limitations (still true, being honest about it)
+1. Install Ollama and run ollama serve (or run the
 
-- **FPS is simulated** until a PresentMon binary is wired up — see the
-  comment block at the top of `src/lib/fps.js`.
-- **GPU usage/VRAM via `systeminformation`** is best-effort and
-  vendor-dependent on Windows. If it's consistently `null`, the next step
-  is a small **LibreHardwareMonitor** C# sidecar dumping JSON that Node
-  reads — the same approach most Windows monitoring tools use.
-- **Overlay works via window layering**, so it renders over
-  borderless/windowed games correctly. True exclusive-fullscreen DirectX
-  games need a DXGI/present hook — a bigger native undertaking, good v2
-  milestone.
-- API keys are encrypted at rest when your OS supports it, but this is
-  still a desktop app storing local secrets — treat it like any other
-  local credential store.
+Ollama desktop app).
 
-## Suggested next milestones
+2. Open the app Chat page "Get more models" shows recommendations based
 
-1. Wire a real PresentMon binary and confirm live FPS numbers.
-2. Add the LibreHardwareMonitor sidecar for accurate GPU stats/temps.
-3. Package with `electron-builder` (`npm run dist`) for a distributable
-   Windows installer.
-4. GitHub Actions workflow for build + release on tag push.
+On your detected RAM/VRAM, or enter in any model name to search for it directly.
+3. Select the model from the dropdown and chat - responses stream in.
+
+OpenAI/Anthropic - Instead of Github Settings page Paste your API key
+
+Add a cancel button to switch providers on the Chat page.
+
+Known limitations (still true, still being honest about it)
+
+- FPS is simulated until a Present Mon binary is wired up - see the
+ comment block at the top of src/lib/fps.js.
+- GPU utilization/VRAM via systeminformation – may be best effort and
+Is null always on Windows. The next step if it's always null`
+Is a small Libre Hardware Monitor C# sidecar dumping JSON that Node
+Reads – the same methodology as most Windows monitoring tools.
+- Overlay works through window layering.## Renders on top of.
+ Borderless/windowed games correctly. True exclusive-fullscreen DirectX
+I'll figure it out on games that require a DXGI/present hook, no native bigger activity, good v2
+ milestone.
+- API keys are encrypted at rest, but this is
+Still a desktop app storing your local secrets – just treat it like any other
+ local credential store.
+
+Suggested next milestones
+
+1. Wire up an actual Present Mon binary and verify live FPS numbers.
+2. Add Libre Hardware Monitor sidecar for accurate GPU stats/temps.
+3. Distribute with electron-builder (npm run dist)
+ Windows installer.
+
+4. Build + release on push tag (GitHub Actions workflow)
+   
